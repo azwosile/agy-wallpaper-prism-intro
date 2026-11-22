@@ -1,0 +1,192 @@
+{
+  "meta": {
+    "title": "Wallpaper Prism v1.1.0 — Bilibili Showcase & Guided Walkthrough",
+    "bgmFile": "audio/残像音阶,M3mo - 感官过载.mp3",
+    "bgmCredits": "残像音阶, M3mo - 感官过载",
+    "bgmBpm": 132,
+    "bgmStartSec": 0,
+    "targetDurationSec": 85,
+    "outroFadeSec": 2.5,
+    "voiceStyle": "mambo",
+    "language": "zh-CN",
+    "pluginVersion": "1.1.0",
+    "repoUrl": "https://github.com/azwosile/agy-wallpaper-prism",
+    "beatAnchorsSec": {
+      "coldOpenPulse": 0.5,
+      "prismShatterHit": 4.0,
+      "mainDropAct2": 14.8,
+      "miniBreakBeforeClick": 31.5,
+      "clickSlamAct3": 32.5,
+      "glassLayoutHitAct4": 44.0,
+      "breakdownStartAct5": 59.5,
+      "finalClimaxDropAct6": 72.5
+    }
+  },
+  "lines": [
+    {
+      "id": "01_hook",
+      "act": 1,
+      "scene": "hook_before",
+      "targetStartSec": 0.4,
+      "pauseAfterSec": 0.35,
+      "text": "曼波！还在对着黑漆漆的编程界面发呆吗？",
+      "subtitle": "曼波！还在对着黑漆漆的编程界面发呆吗？",
+      "callout": "BEFORE · 默认纯黑工作台",
+      "action": "cold_open_dark_ide_shatter"
+    },
+    {
+      "id": "02_reveal",
+      "act": 1,
+      "scene": "hook_reveal",
+      "targetStartSec": 4.15,
+      "pauseAfterSec": 0.35,
+      "text": "开源插件 Wallpaper Prism 来了！一键解锁赛博浮岛液态玻璃！",
+      "subtitle": "开源插件 Wallpaper Prism 来了！一键解锁赛博浮岛液态玻璃",
+      "callout": "Wallpaper Prism v1.1.0 · Obsidian Prism 6层液态玻璃",
+      "action": "prism_refraction_burst_reveal_honkai3"
+    },
+    {
+      "id": "03_hero_showcase",
+      "act": 1,
+      "scene": "hook_hero",
+      "targetStartSec": 9.3,
+      "pauseAfterSec": 0.5,
+      "text": "4K 六十帧动态壁纸丝滑铺底，零修改核心文件，也不花一分 Token！",
+      "subtitle": "4K60 动态壁纸丝滑铺底 · 零修改 app.asar · 0 Agent Token",
+      "callout": "崩坏3周年庆（动态）· 零修改 app.asar · 0 Token",
+      "action": "hero_islands_3d_sweep"
+    },
+    {
+      "id": "04_open_studio",
+      "act": 2,
+      "scene": "studio_open",
+      "targetStartSec": 14.8,
+      "pauseAfterSec": 0.35,
+      "text": "装好插件后，只要点开右侧的 Wallpaper Prism 面板，不用繁琐配置，马上开玩！",
+      "subtitle": "STEP 01 · 打开右侧 [Wallpaper Prism] 侧边工作台，开箱即用",
+      "callout": "STEP 01 · 打开右侧 [Wallpaper Prism] 工作台",
+      "action": "open_sidecar_studio_pane"
+    },
+    {
+      "id": "05_steam_autoscan",
+      "act": 2,
+      "scene": "steam_autoscan",
+      "targetStartSec": 20.75,
+      "pauseAfterSec": 0.45,
+      "text": "它会自动扫出你的 Steam 创意工坊壁纸库！图片、视频、网页和 scene 场景全支持，冷启动只要 8.3 毫秒！",
+      "subtitle": "自动发现 Steam 创意工坊 (431960) · 全格式支持 · 8.3ms 缓存冷启动",
+      "callout": "Steam 431960 自动扫描 · PKGV/LZ4 场景解包 · 8.3ms 冷启动",
+      "action": "steam_library_autoscan_highlight"
+    },
+    {
+      "id": "06_click_honkai",
+      "act": 3,
+      "scene": "click_play",
+      "targetStartSec": 28.0,
+      "pauseAfterSec": 0.4,
+      "text": "接下来超简单，点一下这张崩坏三周年庆动态壁纸，啪一下就秒切！",
+      "subtitle": "STEP 02 · 点击「崩坏3周年庆（动态）」，瞬间丝滑切换",
+      "callout": "STEP 02 · 点击切换「崩坏3周年庆（动态）」",
+      "action": "cursor_click_honkai3_card"
+    },
+    {
+      "id": "07_faststart_switch",
+      "act": 3,
+      "scene": "fast_switch",
+      "targetStartSec": 33.0,
+      "pauseAfterSec": 0.35,
+      "text": "底层零拷贝 MP4 秒开加速，切壁纸快到只要 2.5 毫秒，完全不卡顿！",
+      "subtitle": "零拷贝 MP4 Faststart · 2.5ms 极速切壁纸，丝滑零卡顿",
+      "callout": "2.5ms 极速切换 · 零拷贝 MP4 Faststart · 206 Range",
+      "action": "fast_switch_speed_badge_and_preview"
+    },
+    {
+      "id": "08_dynamic_accent",
+      "act": 3,
+      "scene": "dynamic_accent",
+      "targetStartSec": 38.35,
+      "pauseAfterSec": 0.45,
+      "text": "还会实时从壁纸提取动态强调色，左边栏一键微调模糊度，更能建播放列表自动轮播！",
+      "subtitle": "32×32 动态壁纸取色 · 左侧栏光学精调 · 自动轮播队列",
+      "callout": "32×32 动态取色 · 左侧栏光学微调 · 播放列表自动轮播",
+      "action": "dynamic_chroma_accent_and_left_rail"
+    },
+    {
+      "id": "09_islands_vs_flush",
+      "act": 4,
+      "scene": "layout_toggle",
+      "targetStartSec": 44.1,
+      "pauseAfterSec": 0.35,
+      "text": "切到棱镜外观页，轻轻一点，就能在浮岛画境和紧凑一体两种布局间丝滑切换！",
+      "subtitle": "STEP 03 · 进入「棱镜外观」，一键切换浮岛画境 ↔ 紧凑一体",
+      "callout": "STEP 03 · 浮岛画境 Islands ↔ 紧凑一体 Flush",
+      "action": "toggle_islands_flush_macro_gap"
+    },
+    {
+      "id": "10_presets_and_nord",
+      "act": 4,
+      "scene": "schemes_light_dark",
+      "targetStartSec": 49.55,
+      "pauseAfterSec": 0.35,
+      "text": "4 套光学预设加 8 组明暗配色，深空黑曜秒变极地冰川浅霜，白天黑夜都超好看，曼波！",
+      "subtitle": "4 套光学预设 · 8 组明暗配色（深空黑曜 ↔ 极地冰川 Nord 浅霜）",
+      "callout": "4 光学预设 · 8 组明暗配色 · Dark Obsidian ↔ Light Frost Nord",
+      "action": "switch_scheme_dark_to_nord_light"
+    },
+    {
+      "id": "11_wcag_readability",
+      "act": 4,
+      "scene": "wcag_code",
+      "targetStartSec": 55.0,
+      "pauseAfterSec": 0.45,
+      "text": "担心毛玻璃看不清字？放心！内置护眼对比度底限，代码区和终端照样锐利清晰！",
+      "subtitle": "内置 WCAG 可读性对比度底限 · 代码区与终端清晰锐利",
+      "callout": "WCAG 对比度底限 · 代码/终端磨砂护眼",
+      "action": "macro_zoom_code_terminal_wcag"
+    },
+    {
+      "id": "12_quick_popover",
+      "act": 5,
+      "scene": "quick_popover",
+      "targetStartSec": 60.25,
+      "pauseAfterSec": 0.4,
+      "text": "写代码时不用切走界面，随时按 Ctrl 加 Alt 加 W，就能呼出快捷浮窗，换壁纸调透明度一秒搞定！",
+      "subtitle": "STEP 04 · 任意界面按 Ctrl+Alt+W 呼出 Quick Prism Popover 快捷浮窗",
+      "callout": "STEP 04 · 快捷键 Ctrl+Alt+W · 快捷光学浮窗",
+      "action": "hotkey_ctrl_alt_w_quick_popover"
+    },
+    {
+      "id": "13_shortcut_autoload",
+      "act": 5,
+      "scene": "shortcut_autoload",
+      "targetStartSec": 66.45,
+      "pauseAfterSec": 0.5,
+      "text": "最后点一下一键开启普通快捷方式自动加载，不中断当前对话，下次正常打开就自动恢复全部设置！",
+      "subtitle": "STEP 05 · 一键开启「普通快捷方式自动加载」，不中断对话，下次启动自动恢复",
+      "callout": "STEP 05 · 普通快捷方式自动加载 · 冷启动零弹窗自动恢复",
+      "action": "click_normal_shortcut_autoload_success"
+    },
+    {
+      "id": "14_opensource_repo",
+      "act": 6,
+      "scene": "opensource_outro",
+      "targetStartSec": 72.65,
+      "pauseAfterSec": 0.35,
+      "text": "项目已经在 GitHub 完全开源，两条命令就能装好，地址和教程都放在简介和置顶评论啦！",
+      "subtitle": "GitHub 完全开源 · github.com/azwosile/agy-wallpaper-prism",
+      "callout": "v1.1.0 完全开源 · github.com/azwosile/agy-wallpaper-prism",
+      "action": "opensource_github_hero_card"
+    },
+    {
+      "id": "15_mambo_cta",
+      "act": 6,
+      "scene": "cta_endcard",
+      "targetStartSec": 78.2,
+      "pauseAfterSec": 2.5,
+      "text": "喜欢这套会发光的 Antigravity 工作台，记得点赞投币收藏一键三连，曼波~ 我们下期见！",
+      "subtitle": "喜欢就点赞、投币、收藏一键三连吧！曼波~ 我们下期见！",
+      "callout": "一键三连 · 点赞 👍 投币 🪙 收藏 ⭐ · 曼波~",
+      "action": "bilibili_triple_cta_outro"
+    }
+  ]
+}

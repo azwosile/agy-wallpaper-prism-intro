@@ -1,0 +1,291 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=1920, initial-scale=1.0" />
+  <title>Wallpaper Prism v1.1.0 — Optical Showcase Composition</title>
+  <link rel="stylesheet" href="/scene/styles.css" />
+</head>
+<body>
+  <div class="stage-root" id="stage-root">
+    <!-- Layer 0: Hardware WebGL2 Optical Dispersion & Glass Rings Backdrop -->
+    <canvas id="webgl-bg" width="1920" height="1080"></canvas>
+
+    <!-- Layer 1: Full-bleed Ambient Honkai3 Canvas -->
+    <canvas id="honkai-ambient" width="1920" height="1080"></canvas>
+    <div class="ambient-scrim" id="ambient-scrim"></div>
+
+    <!-- Layer 2: 3D Perspective Camera World -->
+    <div class="camera-world">
+      <div class="camera-rig" id="camera-rig">
+        <!-- Antigravity 2.0 Hub Window -->
+        <div class="device-frame" id="hub-window">
+          <div class="win-titlebar">
+            <div class="win-dots">
+              <span class="win-dot r"></span>
+              <span class="win-dot y"></span>
+              <span class="win-dot g"></span>
+            </div>
+            <div class="win-title">
+              <svg width="15" height="15" viewBox="0 0 256 256" fill="none">
+                <polygon points="128,36 52,132 128,220 204,132" fill="#8AB4F8" stroke="#FFFFFF" stroke-width="14" stroke-linejoin="round"/>
+              </svg>
+              <span>Antigravity 2.0 · agy-wallpaper-prism</span>
+            </div>
+            <div class="win-badge" id="hub-status-badge">
+              <span class="pulse-dot"></span>
+              <span id="hub-badge-text">Wallpaper Prism v1.1.0</span>
+            </div>
+          </div>
+          <div class="win-viewport" id="hub-viewport">
+            <iframe id="hub-frame" src="/hub?frameMode=canvas" width="1640" height="820" allow="autoplay"></iframe>
+            <div class="before-dark-veil" id="before-dark-veil"></div>
+            <div class="before-fracture-line" id="before-fracture-line"></div>
+
+            <!-- Macro Floating Island Gap Calliper (Act 4 S09) -->
+            <div class="macro-calliper" id="macro-calliper" style="left: 82px; top: 365px;">
+              <div class="calliper-bracket">
+                <div class="calliper-tick"></div>
+                <div class="calliper-bar" id="calliper-bar"></div>
+                <div class="calliper-tick"></div>
+              </div>
+              <div class="calliper-pill" id="calliper-pill">浮岛画境 · 8px 光学缝隙</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Wallpaper Prism Sidecar Studio Window -->
+        <div class="device-frame" id="studio-window">
+          <div class="win-titlebar">
+            <div class="win-dots">
+              <span class="win-dot r"></span>
+              <span class="win-dot y"></span>
+              <span class="win-dot g"></span>
+            </div>
+            <div class="win-title">
+              <svg width="15" height="15" viewBox="0 0 256 256" fill="none">
+                <polygon points="128,36 52,132 128,220 204,132" fill="#CBA6F7" stroke="#FFFFFF" stroke-width="14" stroke-linejoin="round"/>
+              </svg>
+              <span>Wallpaper Prism Studio · Sidecar</span>
+            </div>
+            <div class="win-badge">
+              <span class="pulse-dot"></span>
+              <span>已连接宿主</span>
+            </div>
+          </div>
+          <div class="win-viewport" id="studio-viewport">
+            <iframe id="studio-frame" src="/studio" width="1020" height="820" allow="autoplay"></iframe>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Crystal Shatter Shards (Act 1 S02) -->
+    <div class="shatter-layer" id="shatter-layer"></div>
+
+    <!-- Layer 3: HUD Overlays -->
+    <div class="hud-layer">
+      <!-- Top-Left Guided Step Pill -->
+      <div class="step-pill" id="step-pill">
+        <div class="step-diamond">
+          <svg width="22" height="22" viewBox="0 0 256 256" fill="none">
+            <rect x="24" y="24" width="208" height="208" rx="48" fill="#13192B" stroke="#8AB4F8" stroke-width="12"/>
+            <polygon points="128,58 76,132 128,198 180,132" fill="#A58AF8" stroke="#FFFFFF" stroke-width="8"/>
+          </svg>
+        </div>
+        <span class="step-text" id="step-text">BEFORE · 默认纯黑工作台</span>
+      </div>
+
+      <!-- Top-Right Live Telemetry Dock -->
+      <div class="telemetry-dock" id="telemetry-dock">
+        <div class="metric-card" id="metric-primary">
+          <div class="metric-value" id="metric-val">8.3ms</div>
+          <div class="metric-label">
+            <div class="metric-title" id="metric-title">缓存冷启动</div>
+            <div class="metric-sub" id="metric-sub">Steam 431960 · Zero-Spawn</div>
+          </div>
+        </div>
+        <div class="metric-card" id="metric-secondary">
+          <div class="metric-label">
+            <div class="metric-title" id="metric2-title">32×32 动态壁纸取色</div>
+            <div class="metric-sub" id="metric2-sub">LIVE CHROMA EXTRACTION</div>
+          </div>
+          <div class="swatch-row" id="swatch-row">
+            <span class="swatch-orb" style="background:#669df6;color:#669df6"></span>
+            <span class="swatch-orb" style="background:#a58af8;color:#a58af8"></span>
+            <span class="swatch-orb" style="background:#f472b6;color:#f472b6"></span>
+            <span class="swatch-orb" style="background:#50a37b;color:#50a37b"></span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Act 1 S02 Hero Brand Reveal Banner -->
+      <div class="hero-reveal-banner" id="hero-reveal-banner">
+        <div class="hero-logo-wrap">
+          <svg viewBox="0 0 256 256" width="66" height="66" fill="none">
+            <defs>
+              <linearGradient id="pf1" x1="36" y1="30" x2="220" y2="226" gradientUnits="userSpaceOnUse">
+                <stop offset="0%" stop-color="#1E2436" /><stop offset="100%" stop-color="#0B0D14" />
+              </linearGradient>
+              <linearGradient id="pr1" x1="32" y1="28" x2="224" y2="228" gradientUnits="userSpaceOnUse">
+                <stop offset="0%" stop-color="#93C5FD" /><stop offset="50%" stop-color="#A58AF8" /><stop offset="100%" stop-color="#50A37B" />
+              </linearGradient>
+              <linearGradient id="fl1" x1="72" y1="62" x2="128" y2="196" gradientUnits="userSpaceOnUse">
+                <stop offset="0%" stop-color="#8AB4F8" /><stop offset="100%" stop-color="#3B82F6" />
+              </linearGradient>
+              <linearGradient id="fr1" x1="128" y1="62" x2="188" y2="196" gradientUnits="userSpaceOnUse">
+                <stop offset="0%" stop-color="#CBA6F7" /><stop offset="55%" stop-color="#7AA2F7" /><stop offset="100%" stop-color="#50A37B" />
+              </linearGradient>
+            </defs>
+            <rect x="28" y="28" width="200" height="200" rx="46" fill="url(#pf1)" stroke="url(#pr1)" stroke-width="6" />
+            <path d="M44 140L106 122" stroke="#E2E8F0" stroke-width="5" stroke-linecap="round" />
+            <path d="M150 116L210 98" stroke="#669DF6" stroke-width="5" stroke-linecap="round" />
+            <path d="M154 128L212 128" stroke="#A58AF8" stroke-width="5" stroke-linecap="round" />
+            <path d="M150 140L208 158" stroke="#50A37B" stroke-width="5" stroke-linecap="round" />
+            <polygon points="128,58 76,132 128,198" fill="url(#fl1)" />
+            <polygon points="128,58 180,132 128,198" fill="url(#fr1)" />
+            <polygon points="128,58 76,132 128,198 180,132" stroke="#F8FAFC" stroke-width="3.5" stroke-linejoin="round" />
+          </svg>
+        </div>
+        <div class="hero-title-group">
+          <div class="hero-title-main">Wallpaper Prism v1.1.0</div>
+          <div class="hero-title-sub">Obsidian Prism 6 层液态玻璃 × Antigravity 动态壁纸工作台</div>
+        </div>
+      </div>
+
+      <!-- Act 1 S03 Floating Feature Badges -->
+      <div class="hero-badges-rail" id="hero-badges-rail">
+        <div class="hero-badge-pill" id="hb-1"><span class="hero-badge-dot"></span><span>4K 60FPS 动态壁纸丝滑铺底</span></div>
+        <div class="hero-badge-pill" id="hb-2"><span class="hero-badge-dot"></span><span>零修改 app.asar · 升级无忧</span></div>
+        <div class="hero-badge-pill" id="hb-3"><span class="hero-badge-dot"></span><span>0 Agent Token · 纯本地渲染</span></div>
+      </div>
+
+      <!-- Act 4 S11 WCAG Readability Lens Badge (Fixed HUD safe coords) -->
+      <div class="wcag-lens-badge" id="wcag-lens-badge">
+        <div class="wcag-grade" id="wcag-grade">AAA</div>
+        <div class="wcag-meta">
+          <div class="wcag-title" id="wcag-title">WCAG 护眼对比度底限 ✓</div>
+          <div class="wcag-sub" id="wcag-sub">CODE &amp; TERMINAL · 12.4:1 FROSTED</div>
+        </div>
+      </div>
+
+      <!-- Act 4 S10 Scheme Matrix Ribbon -->
+      <div class="scheme-ribbon" id="scheme-ribbon">
+        <span class="scheme-chip" data-scheme="prism-default" style="background:linear-gradient(135deg,#0e0e11 50%,#669df6 50%)"></span>
+        <span class="scheme-chip" data-scheme="warm-carbon" style="background:linear-gradient(135deg,#141413 50%,#d97757 50%)"></span>
+        <span class="scheme-chip" data-scheme="catppuccin" style="background:linear-gradient(135deg,#1e1e2e 50%,#cba6f7 50%)"></span>
+        <span class="scheme-chip" data-scheme="nord" style="background:linear-gradient(135deg,#eceff4 50%,#88c0d0 50%)"></span>
+        <span class="scheme-chip" data-scheme="rose-pine" style="background:linear-gradient(135deg,#191724 50%,#ebbcba 50%)"></span>
+        <span class="scheme-chip" data-scheme="tokyo-night" style="background:linear-gradient(135deg,#1a1b26 50%,#7aa2f7 50%)"></span>
+        <span class="scheme-chip" data-scheme="gruvbox" style="background:linear-gradient(135deg,#282828 50%,#fabd2f 50%)"></span>
+        <span class="scheme-chip" data-scheme="native" style="background:linear-gradient(135deg,#13161f 50%,#50a37b 50%)"></span>
+        <span class="scheme-ribbon-label" id="scheme-ribbon-label">深空黑曜 · Dark Obsidian</span>
+      </div>
+
+      <!-- Act 5 S12 Glowing 3D Keycaps -->
+      <div class="keycap-stage" id="keycap-stage">
+        <div class="keycap" id="key-ctrl">Ctrl</div>
+        <span class="keycap-plus">+</span>
+        <div class="keycap" id="key-alt">Alt</div>
+        <span class="keycap-plus">+</span>
+        <div class="keycap" id="key-w">W</div>
+      </div>
+
+      <!-- Act 5 S13 Shortcut Auto-Load Confirmation -->
+      <div class="shortcut-success-toast" id="shortcut-success-toast">
+        <div class="shortcut-check">✓</div>
+        <div>
+          <div class="shortcut-toast-title">普通快捷方式自动加载已开启 · 不中断当前对话</div>
+          <div class="shortcut-toast-sub">下次从普通 Antigravity 图标启动，零弹窗自动恢复全部壁纸与玻璃皮肤</div>
+        </div>
+      </div>
+
+      <!-- Act 6 S14/S15 Open-Source GitHub Hero Card -->
+      <div class="outro-panel" id="outro-panel">
+        <div class="outro-head">
+          <div class="outro-logo">
+            <svg viewBox="0 0 256 256" width="78" height="78" fill="none">
+              <rect x="28" y="28" width="200" height="200" rx="46" fill="url(#pf1)" stroke="url(#pr1)" stroke-width="6" />
+              <path d="M44 140L106 122" stroke="#E2E8F0" stroke-width="5" stroke-linecap="round" />
+              <path d="M150 116L210 98" stroke="#669DF6" stroke-width="5" stroke-linecap="round" />
+              <path d="M154 128L212 128" stroke="#A58AF8" stroke-width="5" stroke-linecap="round" />
+              <path d="M150 140L208 158" stroke="#50A37B" stroke-width="5" stroke-linecap="round" />
+              <polygon points="128,58 76,132 128,198" fill="url(#fl1)" />
+              <polygon points="128,58 180,132 128,198" fill="url(#fr1)" />
+              <polygon points="128,58 76,132 128,198 180,132" stroke="#F8FAFC" stroke-width="3.5" stroke-linejoin="round" />
+            </svg>
+          </div>
+          <div>
+            <div class="outro-name">Wallpaper Prism v1.1.0</div>
+            <div class="outro-tag">Google Antigravity 棱镜液态玻璃皮肤与动态壁纸工作台</div>
+          </div>
+        </div>
+        <div class="outro-repo-pill">
+          <span>github.com/azwosile/agy-wallpaper-prism</span>
+          <span style="font-size:13px;color:#86efac;">MIT 开源</span>
+        </div>
+        <div class="outro-cmd-box">
+          <div><span class="cmd-comment"># 两条命令本地一键构建安装</span></div>
+          <div><span class="cmd-prompt">$</span> node scripts/build.mjs</div>
+          <div><span class="cmd-prompt">$</span> node scripts/install-local.mjs</div>
+        </div>
+        <div class="outro-chips">
+          <span class="outro-chip">Steam 431960 自动发现</span>
+          <span class="outro-chip">Obsidian Prism 6层玻璃</span>
+          <span class="outro-chip">8.3ms 冷启动 · 2.5ms 秒切</span>
+          <span class="outro-chip">零修改 app.asar · 0 Token</span>
+        </div>
+      </div>
+
+      <!-- Act 6 S15 Bilibili Triple CTA -->
+      <div class="triple-cta-dock" id="triple-cta-dock">
+        <div class="triple-btns">
+          <div class="triple-btn" id="cta-like">👍 点赞</div>
+          <div class="triple-btn" id="cta-coin">🪙 投币</div>
+          <div class="triple-btn" id="cta-fav">⭐ 收藏</div>
+        </div>
+        <div class="triple-mambo-tag">一键三连 · 曼波~</div>
+      </div>
+    </div>
+
+    <!-- Layer 4: Virtual Prism Cursor + Ripples -->
+    <div class="cursor-layer">
+      <div class="cursor-ripple" id="ripple-1"></div>
+      <div class="cursor-ripple" id="ripple-2"></div>
+      <div class="cursor-ripple" id="ripple-3"></div>
+      <div class="virtual-cursor" id="virtual-cursor">
+        <svg width="34" height="34" viewBox="0 0 36 36" fill="none">
+          <defs>
+            <linearGradient id="curGrad" x1="4" y1="3" x2="26" y2="30" gradientUnits="userSpaceOnUse">
+              <stop offset="0%" stop-color="#FFFFFF"/>
+              <stop offset="65%" stop-color="#DBEAFE"/>
+              <stop offset="100%" stop-color="#93C5FD"/>
+            </linearGradient>
+          </defs>
+          <path d="M5 3.5L28.5 17.5L17.8 20.1L12.6 30.8L5 3.5Z" fill="url(#curGrad)" stroke="#0F172A" stroke-width="2.2" stroke-linejoin="round"/>
+          <path d="M8.2 7.8L22.2 16.4L15.8 18.0L12.5 24.6L8.2 7.8Z" fill="rgba(165,138,248,0.28)"/>
+        </svg>
+      </div>
+    </div>
+
+    <!-- Layer 5: Bilibili Bottom-Safe Kinetic Subtitles -->
+    <div class="subtitle-layer">
+      <div class="subtitle-box" id="subtitle-box">
+        <div class="subtitle-accent-bar"></div>
+        <div class="subtitle-text" id="subtitle-text"></div>
+        <div class="subtitle-eq" id="subtitle-eq">
+          <span></span><span></span><span></span><span></span>
+        </div>
+        <div class="subtitle-progress" id="subtitle-progress"></div>
+      </div>
+    </div>
+
+    <!-- Layer 6: Prismatic Transition Wipe & Outro Fade -->
+    <div class="chromatic-wipe" id="chromatic-wipe"></div>
+    <div class="bottom-spectrum" id="bottom-spectrum"></div>
+    <div class="outro-fade" id="outro-fade"></div>
+  </div>
+
+  <script type="module" src="/scene/choreography.js"></script>
+</body>
+</html>

@@ -1,0 +1,1050 @@
+/* Obsidian Prism Bilibili Promo Composition Styles (Exact 1920x1080) */
+:root {
+  --prism-accent: #669df6;
+  --prism-accent-rgb: 102, 157, 246;
+  --prism-violet: #a58af8;
+  --prism-emerald: #50a37b;
+  --prism-pink: #fb7299;
+  --prism-gold: #fbbf24;
+  --glass-bg: rgba(14, 17, 27, 0.72);
+  --glass-bg-strong: rgba(12, 14, 22, 0.86);
+  --glass-rim: rgba(255, 255, 255, 0.20);
+  --glass-rim-top: rgba(255, 255, 255, 0.42);
+  --font-sans: "Microsoft YaHei UI", "Microsoft YaHei", "PingFang SC", "Noto Sans SC", "Segoe UI", system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", "Cascadia Code", "Consolas", monospace;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html, body {
+  width: 1920px;
+  height: 1080px;
+  overflow: hidden;
+  background: #06070c;
+  color: #f4f6fb;
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  user-select: none;
+}
+
+/* Master 1920x1080 Stage */
+.stage-root {
+  position: relative;
+  width: 1920px;
+  height: 1080px;
+  overflow: hidden;
+  background: #06070c;
+}
+
+/* Layer 0: Hardware WebGL2 Optical Prism Canvas */
+#webgl-bg {
+  position: absolute;
+  inset: 0;
+  width: 1920px;
+  height: 1080px;
+  z-index: 0;
+  display: block;
+}
+
+/* Layer 1: Full-bleed Ambient Honkai3 Canvas (for Act 1 reveal & Act 6 climax) */
+#honkai-ambient {
+  position: absolute;
+  inset: 0;
+  width: 1920px;
+  height: 1080px;
+  z-index: 1;
+  opacity: 0;
+  pointer-events: none;
+  filter: blur(18px) saturate(1.18) brightness(0.62);
+  transform: scale(1.06);
+}
+
+.ambient-scrim {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  pointer-events: none;
+  background: radial-gradient(ellipse at 50% 44%, rgba(8, 10, 18, 0.08) 0%, rgba(5, 7, 13, 0.72) 100%);
+  opacity: 0;
+}
+
+/* Layer 2: 3D Camera Perspective World */
+.camera-world {
+  position: absolute;
+  inset: 0;
+  z-index: 10;
+  perspective: 2200px;
+  perspective-origin: 50% 50%;
+  overflow: visible;
+}
+
+.camera-rig {
+  position: absolute;
+  inset: 0;
+  transform-style: preserve-3d;
+  transform-origin: 960px 540px;
+  will-change: transform;
+}
+
+/* Glass Device Window Shell */
+.device-frame {
+  position: absolute;
+  border-radius: 20px;
+  background: rgba(12, 15, 24, 0.88);
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  box-shadow:
+    0 36px 96px rgba(0, 0, 0, 0.68),
+    0 10px 30px rgba(0, 0, 0, 0.45),
+    0 0 0 1px rgba(var(--prism-accent-rgb), 0.16),
+    inset 0 1px 0 rgba(255, 255, 255, 0.36);
+  overflow: hidden;
+  transform-style: preserve-3d;
+  will-change: transform, opacity;
+}
+
+.device-frame::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  z-index: 40;
+  background: linear-gradient(172deg, rgba(255, 255, 255, 0.14) 0%, rgba(255, 255, 255, 0.02) 22%, transparent 45%);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  border-bottom-color: rgba(255, 255, 255, 0.05);
+}
+
+.device-frame.is-light {
+  background: rgba(242, 246, 252, 0.92);
+  border-color: rgba(46, 52, 64, 0.14);
+  box-shadow:
+    0 36px 90px rgba(20, 35, 65, 0.24),
+    0 8px 24px rgba(20, 35, 65, 0.12),
+    inset 0 1px 0 rgba(255, 255, 255, 0.92);
+}
+
+/* Sleek Obsidian Window Titlebar */
+.win-titlebar {
+  position: relative;
+  height: 36px;
+  padding: 0 14px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: linear-gradient(180deg, rgba(24, 28, 42, 0.94), rgba(16, 19, 30, 0.92));
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  font-size: 12px;
+  color: rgba(235, 240, 250, 0.85);
+  z-index: 30;
+}
+
+.device-frame.is-light .win-titlebar {
+  background: linear-gradient(180deg, rgba(248, 250, 254, 0.95), rgba(236, 241, 248, 0.92));
+  border-bottom-color: rgba(46, 52, 64, 0.10);
+  color: #2e3440;
+}
+
+.win-dots {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+}
+
+.win-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.20);
+}
+.win-dot.r { background: #ff5f57; }
+.win-dot.y { background: #febc2e; }
+.win-dot.g { background: #28c840; }
+
+.win-title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 600;
+  letter-spacing: 0.2px;
+}
+
+.win-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 3px 10px;
+  border-radius: 999px;
+  font-size: 11px;
+  font-weight: 600;
+  background: rgba(var(--prism-accent-rgb), 0.16);
+  border: 1px solid rgba(var(--prism-accent-rgb), 0.36);
+  color: #cfe0ff;
+}
+.device-frame.is-light .win-badge {
+  background: rgba(94, 129, 172, 0.14);
+  border-color: rgba(94, 129, 172, 0.35);
+  color: #2e3440;
+}
+
+.win-badge .pulse-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #4ade80;
+  box-shadow: 0 0 8px #4ade80;
+}
+
+.win-viewport {
+  position: relative;
+  width: 100%;
+  height: calc(100% - 36px);
+  overflow: hidden;
+  background: #0d0f16;
+}
+
+.win-viewport iframe {
+  position: absolute;
+  top: 0;
+  left: 0;
+  border: 0;
+  transform-origin: top left;
+  background: transparent;
+}
+
+/* Hub & Studio Base Geometry */
+#hub-window {
+  left: 140px;
+  top: 76px;
+  width: 1640px;
+  height: 856px;
+  z-index: 12;
+}
+
+#studio-window {
+  left: 1020px;
+  top: 76px;
+  width: 820px;
+  height: 856px;
+  z-index: 14;
+  opacity: 0;
+}
+
+/* Cold-Open "Before" Matte-Dark Overlay inside Hub */
+.before-dark-veil {
+  position: absolute;
+  inset: 0;
+  z-index: 25;
+  pointer-events: none;
+  background: rgba(11, 12, 16, 0.38);
+  opacity: 0;
+}
+
+.before-fracture-line {
+  position: absolute;
+  inset: -40px;
+  z-index: 35;
+  pointer-events: none;
+  opacity: 0;
+  background: linear-gradient(
+    112deg,
+    transparent 47.6%,
+    rgba(102, 157, 246, 0.5) 49.0%,
+    rgba(255, 255, 255, 0.98) 50.0%,
+    rgba(165, 138, 248, 0.65) 51.0%,
+    transparent 52.4%
+  );
+  filter: drop-shadow(0 0 24px rgba(102, 157, 246, 0.95));
+}
+
+/* Precision Macro Gap Calliper Overlay (Act 4 Islands <-> Flush) */
+.macro-calliper {
+  position: absolute;
+  z-index: 36;
+  pointer-events: none;
+  opacity: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+}
+
+.calliper-bracket {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  height: 36px;
+}
+
+.calliper-tick {
+  width: 2px;
+  height: 34px;
+  background: #93c5fd;
+  box-shadow: 0 0 12px rgba(102, 157, 246, 0.95);
+}
+
+.calliper-bar {
+  height: 2px;
+  width: 28px;
+  background: linear-gradient(90deg, #669df6, #ffffff, #a58af8);
+  box-shadow: 0 0 10px rgba(147, 197, 253, 0.9);
+}
+
+.calliper-pill {
+  padding: 5px 14px;
+  border-radius: 999px;
+  background: rgba(12, 16, 28, 0.90);
+  border: 1px solid rgba(147, 197, 253, 0.58);
+  box-shadow: 0 8px 26px rgba(0, 0, 0, 0.55), 0 0 18px rgba(102, 157, 246, 0.35);
+  font-size: 13px;
+  font-weight: 700;
+  color: #eaf2ff;
+  white-space: nowrap;
+}
+
+/* WCAG Contrast Verification Floating Lens Badge (Act 4 S11) */
+.wcag-lens-badge {
+  position: absolute;
+  right: 48px;
+  top: 26px;
+  z-index: 38;
+  opacity: 0;
+  pointer-events: none;
+  padding: 14px 20px;
+  border-radius: 18px;
+  background: rgba(10, 14, 24, 0.90);
+  backdrop-filter: blur(20px) saturate(160%);
+  border: 1px solid rgba(80, 163, 123, 0.65);
+  box-shadow: 0 18px 46px rgba(0, 0, 0, 0.58), 0 0 28px rgba(80, 163, 123, 0.30), inset 0 1px 0 rgba(255, 255, 255, 0.32);
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.wcag-grade {
+  padding: 6px 12px;
+  border-radius: 10px;
+  background: linear-gradient(135deg, rgba(80, 163, 123, 0.28), rgba(56, 189, 248, 0.22));
+  border: 1px solid rgba(80, 163, 123, 0.65);
+  color: #6ee7b7;
+  font-family: var(--font-mono);
+  font-size: 18px;
+  font-weight: 800;
+}
+
+.wcag-meta {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.wcag-title { font-size: 14px; font-weight: 700; color: #f8fafc; }
+.wcag-sub { font-size: 12px; color: #94a3b8; font-family: var(--font-mono); }
+
+/* Shatter Crystal Shards Layer (Act 1 S02 Drop) */
+.shatter-layer {
+  position: absolute;
+  inset: 0;
+  z-index: 22;
+  pointer-events: none;
+  opacity: 0;
+}
+
+.crystal-shard {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.52), rgba(102, 157, 246, 0.28), rgba(165, 138, 248, 0.16));
+  border: 1px solid rgba(255, 255, 255, 0.65);
+  box-shadow: 0 0 24px rgba(102, 157, 246, 0.45);
+  backdrop-filter: blur(8px);
+}
+
+/* Layer 3: HUD Overlays (Hero Title, Step Pill, Telemetry Dock, Keycaps, Outro) */
+.hud-layer {
+  position: absolute;
+  inset: 0;
+  z-index: 30;
+  pointer-events: none;
+}
+
+/* Top-Left Guided Step / Act Pill */
+.step-pill {
+  position: absolute;
+  left: 44px;
+  top: 26px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 20px 10px 14px;
+  border-radius: 999px;
+  background: rgba(11, 14, 24, 0.80);
+  backdrop-filter: blur(18px) saturate(150%);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  box-shadow:
+    0 12px 34px rgba(0, 0, 0, 0.45),
+    inset 0 1px 0 rgba(255, 255, 255, 0.30);
+  opacity: 0;
+}
+
+.step-pill.is-before {
+  background: rgba(24, 26, 32, 0.84);
+  border-color: rgba(255, 255, 255, 0.14);
+}
+
+.step-pill.is-light {
+  background: rgba(248, 251, 255, 0.86);
+  border-color: rgba(46, 52, 64, 0.16);
+  color: #1e293b;
+  box-shadow: 0 12px 30px rgba(30, 52, 86, 0.16), inset 0 1px 0 rgba(255, 255, 255, 0.95);
+}
+
+.step-diamond {
+  width: 24px;
+  height: 24px;
+  display: grid;
+  place-items: center;
+}
+
+.step-text {
+  font-size: 16px;
+  font-weight: 700;
+  letter-spacing: 0.3px;
+  color: #f4f7ff;
+  white-space: nowrap;
+}
+
+.step-pill.is-light .step-text {
+  color: #1e293b;
+}
+
+/* Top-Right Metric & Feature Telemetry Dock */
+.telemetry-dock {
+  position: absolute;
+  right: 44px;
+  top: 26px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 10px;
+}
+
+.metric-card {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 18px;
+  border-radius: 16px;
+  background: rgba(11, 14, 24, 0.82);
+  backdrop-filter: blur(20px) saturate(160%);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  box-shadow:
+    0 14px 36px rgba(0, 0, 0, 0.45),
+    inset 0 1px 0 rgba(255, 255, 255, 0.32);
+  opacity: 0;
+  transform: translate3d(30px, 0, 0);
+}
+
+.metric-card.is-light {
+  background: rgba(248, 251, 255, 0.88);
+  border-color: rgba(46, 52, 64, 0.16);
+  color: #1e293b;
+}
+
+.metric-value {
+  font-family: var(--font-mono);
+  font-size: 22px;
+  font-weight: 800;
+  background: linear-gradient(120deg, #93c5fd, #cba6f7, #6ee7b7);
+  -webkit-background-clip: text;
+  color: transparent;
+}
+
+.metric-card.is-light .metric-value {
+  background: linear-gradient(120deg, #2563eb, #6366f1, #0ea5e9);
+  -webkit-background-clip: text;
+  color: transparent;
+}
+
+.metric-label {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+}
+.metric-title {
+  font-size: 14px;
+  font-weight: 700;
+  color: #f4f7ff;
+}
+.metric-card.is-light .metric-title { color: #1e293b; }
+.metric-sub {
+  font-size: 11px;
+  color: #9ba8c4;
+  font-family: var(--font-mono);
+}
+.metric-card.is-light .metric-sub { color: #5b6b82; }
+
+.swatch-row {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  margin-left: 4px;
+}
+
+.swatch-orb {
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  border: 2px solid rgba(255, 255, 255, 0.72);
+  box-shadow: 0 0 12px currentColor;
+}
+
+/* Act 1 Hero Brand Reveal Banner */
+.hero-reveal-banner {
+  position: absolute;
+  left: 50%;
+  top: 102px;
+  transform: translate(-50%, 0);
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  padding: 18px 34px 18px 24px;
+  border-radius: 26px;
+  background: linear-gradient(135deg, rgba(14, 18, 32, 0.84), rgba(20, 24, 42, 0.78));
+  backdrop-filter: blur(24px) saturate(170%);
+  border: 1px solid rgba(186, 214, 255, 0.34);
+  box-shadow:
+    0 24px 68px rgba(0, 0, 0, 0.56),
+    0 0 42px rgba(102, 157, 246, 0.28),
+    inset 0 1px 0 rgba(255, 255, 255, 0.48);
+  opacity: 0;
+}
+
+.hero-logo-wrap {
+  width: 66px;
+  height: 66px;
+  flex-shrink: 0;
+  filter: drop-shadow(0 6px 18px rgba(102, 157, 246, 0.45));
+}
+
+.hero-title-group {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.hero-title-main {
+  font-size: 36px;
+  font-weight: 800;
+  letter-spacing: -0.4px;
+  line-height: 1.1;
+  background: linear-gradient(110deg, #ffffff 10%, #b8d4ff 52%, #d8c2ff 82%, #8ef3cd 100%);
+  -webkit-background-clip: text;
+  color: transparent;
+}
+
+.hero-title-sub {
+  font-size: 16px;
+  font-weight: 600;
+  color: rgba(226, 236, 255, 0.86);
+  letter-spacing: 0.4px;
+}
+
+/* Act 1 S03 Floating Feature Badges Stack */
+.hero-badges-rail {
+  position: absolute;
+  right: 38px;
+  top: 158px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  opacity: 0;
+}
+
+.hero-badge-pill {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 14px 24px;
+  border-radius: 18px;
+  background: rgba(10, 14, 24, 0.92);
+  backdrop-filter: blur(22px) saturate(165%);
+  border: 1px solid rgba(168, 200, 255, 0.38);
+  box-shadow:
+    0 18px 46px rgba(0, 0, 0, 0.58),
+    0 0 24px rgba(102, 157, 246, 0.18),
+    inset 0 1px 0 rgba(255, 255, 255, 0.40);
+  font-size: 17px;
+  font-weight: 700;
+  color: #f4f7ff;
+  opacity: 0;
+  transform: translate3d(42px, 0, 0);
+}
+
+.hero-badge-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #669df6, #a58af8);
+  box-shadow: 0 0 12px rgba(102, 157, 246, 0.9);
+}
+
+/* Act 4 Scheme & Preset Strip Overlay */
+.scheme-ribbon {
+  position: absolute;
+  left: 50%;
+  top: 26px;
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 20px;
+  border-radius: 999px;
+  background: rgba(12, 16, 28, 0.82);
+  backdrop-filter: blur(20px) saturate(160%);
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  box-shadow: 0 14px 36px rgba(0, 0, 0, 0.44), inset 0 1px 0 rgba(255, 255, 255, 0.32);
+  opacity: 0;
+}
+
+.scheme-ribbon.is-light {
+  background: rgba(248, 251, 255, 0.90);
+  border-color: rgba(46, 52, 64, 0.16);
+  color: #2e3440;
+}
+
+.scheme-chip {
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  border: 2px solid rgba(255, 255, 255, 0.36);
+  position: relative;
+}
+
+.scheme-chip.is-active {
+  border-color: #ffffff;
+  box-shadow: 0 0 0 3px rgba(102, 157, 246, 0.55), 0 0 16px rgba(136, 192, 208, 0.95);
+  transform: scale(1.22);
+}
+
+.scheme-ribbon-label {
+  font-size: 14px;
+  font-weight: 700;
+  margin-left: 6px;
+  color: #f1f5f9;
+}
+.scheme-ribbon.is-light .scheme-ribbon-label { color: #2e3440; }
+
+/* Act 5 S12: 3D Mechanical Glowing Keycaps (Ctrl + Alt + W) */
+.keycap-stage {
+  position: absolute;
+  left: 50%;
+  bottom: 162px;
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  padding: 20px 30px;
+  border-radius: 26px;
+  background: rgba(10, 14, 24, 0.82);
+  backdrop-filter: blur(22px) saturate(165%);
+  border: 1px solid rgba(168, 200, 255, 0.28);
+  box-shadow:
+    0 24px 64px rgba(0, 0, 0, 0.62),
+    0 0 38px rgba(102, 157, 246, 0.22),
+    inset 0 1px 0 rgba(255, 255, 255, 0.36);
+  opacity: 0;
+}
+
+.keycap {
+  min-width: 94px;
+  height: 78px;
+  padding: 0 22px;
+  border-radius: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-mono);
+  font-size: 28px;
+  font-weight: 800;
+  color: #eef4ff;
+  background: linear-gradient(180deg, rgba(44, 52, 76, 0.96) 0%, rgba(22, 26, 40, 0.98) 100%);
+  border: 1px solid rgba(186, 212, 255, 0.35);
+  box-shadow:
+    0 8px 0 rgba(9, 11, 18, 0.96),
+    0 14px 26px rgba(0, 0, 0, 0.55),
+    inset 0 1px 0 rgba(255, 255, 255, 0.42);
+}
+
+.keycap.is-pressed {
+  transform: translateY(6px);
+  color: #ffffff;
+  background: linear-gradient(180deg, rgba(84, 142, 246, 0.94) 0%, rgba(114, 96, 228, 0.94) 100%);
+  border-color: rgba(255, 255, 255, 0.78);
+  box-shadow:
+    0 2px 0 rgba(25, 36, 70, 0.96),
+    0 0 32px rgba(102, 157, 246, 0.85),
+    inset 0 1px 0 rgba(255, 255, 255, 0.75);
+}
+
+.keycap-plus {
+  font-size: 26px;
+  font-weight: 700;
+  color: rgba(186, 212, 255, 0.65);
+}
+
+/* Act 5 S13: Desktop Shortcut Success Badge */
+.shortcut-success-toast {
+  position: absolute;
+  left: 50%;
+  bottom: 162px;
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 16px 28px;
+  border-radius: 20px;
+  background: linear-gradient(135deg, rgba(11, 28, 24, 0.92), rgba(12, 20, 32, 0.92));
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(74, 222, 128, 0.62);
+  box-shadow:
+    0 20px 56px rgba(0, 0, 0, 0.56),
+    0 0 36px rgba(74, 222, 128, 0.28),
+    inset 0 1px 0 rgba(255, 255, 255, 0.30);
+  opacity: 0;
+}
+
+.shortcut-check {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #22c55e, #10b981);
+  display: grid;
+  place-items: center;
+  font-size: 20px;
+  font-weight: 800;
+  color: #052e16;
+  box-shadow: 0 0 20px rgba(74, 222, 128, 0.75);
+}
+
+.shortcut-toast-title {
+  font-size: 18px;
+  font-weight: 800;
+  color: #ecfdf5;
+}
+.shortcut-toast-sub {
+  font-size: 13px;
+  color: #a7f3d0;
+  margin-top: 2px;
+}
+
+/* Act 6: Open-Source GitHub Hero Card + Bilibili Triple CTA */
+.outro-panel {
+  position: absolute;
+  right: 76px;
+  top: 128px;
+  width: 820px;
+  padding: 36px 40px;
+  border-radius: 28px;
+  background: linear-gradient(148deg, rgba(13, 17, 30, 0.88), rgba(18, 22, 38, 0.82));
+  backdrop-filter: blur(28px) saturate(180%);
+  border: 1px solid rgba(186, 214, 255, 0.34);
+  box-shadow:
+    0 32px 92px rgba(0, 0, 0, 0.66),
+    0 0 54px rgba(102, 157, 246, 0.24),
+    inset 0 1px 0 rgba(255, 255, 255, 0.46);
+  opacity: 0;
+}
+
+.outro-head {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.outro-logo {
+  width: 78px;
+  height: 78px;
+  flex-shrink: 0;
+  filter: drop-shadow(0 8px 24px rgba(102, 157, 246, 0.5));
+}
+
+.outro-name {
+  font-size: 42px;
+  font-weight: 800;
+  letter-spacing: -0.5px;
+  background: linear-gradient(110deg, #ffffff 12%, #a8cbff 55%, #d6baff 82%, #7bf2c9 100%);
+  -webkit-background-clip: text;
+  color: transparent;
+}
+
+.outro-tag {
+  margin-top: 4px;
+  font-size: 16px;
+  color: #cbd5e1;
+  font-weight: 600;
+}
+
+.outro-repo-pill {
+  margin-top: 22px;
+  padding: 13px 20px;
+  border-radius: 14px;
+  background: rgba(102, 157, 246, 0.14);
+  border: 1px solid rgba(147, 197, 253, 0.42);
+  font-family: var(--font-mono);
+  font-size: 20px;
+  font-weight: 700;
+  color: #dbeafe;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.outro-cmd-box {
+  margin-top: 16px;
+  padding: 16px 20px;
+  border-radius: 14px;
+  background: rgba(7, 9, 15, 0.88);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  font-family: var(--font-mono);
+  font-size: 16px;
+  line-height: 1.65;
+  color: #e2e8f0;
+}
+
+.cmd-prompt { color: #669df6; font-weight: 700; }
+.cmd-comment { color: #64748b; }
+
+.outro-chips {
+  margin-top: 20px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.outro-chip {
+  padding: 8px 15px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.20);
+  font-size: 14px;
+  font-weight: 700;
+  color: #eef4ff;
+}
+
+/* Bilibili Triple CTA Bar (Act 6 S15) */
+.triple-cta-dock {
+  position: absolute;
+  right: 76px;
+  top: 632px;
+  width: 820px;
+  padding: 24px 32px;
+  border-radius: 26px;
+  background: linear-gradient(135deg, rgba(16, 18, 32, 0.88), rgba(26, 20, 40, 0.84));
+  backdrop-filter: blur(24px) saturate(175%);
+  border: 1px solid rgba(251, 114, 153, 0.36);
+  box-shadow:
+    0 24px 68px rgba(0, 0, 0, 0.58),
+    0 0 42px rgba(251, 114, 153, 0.22),
+    inset 0 1px 0 rgba(255, 255, 255, 0.36);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  opacity: 0;
+}
+
+.triple-btns {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+}
+
+.triple-btn {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 13px 22px;
+  border-radius: 18px;
+  background: rgba(255, 255, 255, 0.07);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  font-size: 20px;
+  font-weight: 800;
+  color: #cbd5e1;
+}
+
+.triple-btn.is-lit-like {
+  background: linear-gradient(135deg, rgba(251, 114, 153, 0.32), rgba(244, 63, 94, 0.24));
+  border-color: #fb7299;
+  color: #fff1f5;
+  box-shadow: 0 0 28px rgba(251, 114, 153, 0.65);
+}
+.triple-btn.is-lit-coin {
+  background: linear-gradient(135deg, rgba(102, 157, 246, 0.34), rgba(56, 189, 248, 0.24));
+  border-color: #669df6;
+  color: #eff6ff;
+  box-shadow: 0 0 28px rgba(102, 157, 246, 0.65);
+}
+.triple-btn.is-lit-fav {
+  background: linear-gradient(135deg, rgba(251, 191, 36, 0.34), rgba(245, 158, 11, 0.22));
+  border-color: #fbbf24;
+  color: #fffbeb;
+  box-shadow: 0 0 28px rgba(251, 191, 36, 0.65);
+}
+
+.triple-mambo-tag {
+  font-size: 22px;
+  font-weight: 800;
+  background: linear-gradient(110deg, #ffb3ca, #ffffff, #93c5fd);
+  -webkit-background-clip: text;
+  color: transparent;
+}
+
+/* Layer 4: Virtual Prism Cursor + Concentric Click Ripples */
+.cursor-layer {
+  position: absolute;
+  inset: 0;
+  z-index: 45;
+  pointer-events: none;
+}
+
+.virtual-cursor {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 34px;
+  height: 34px;
+  opacity: 0;
+  filter: drop-shadow(0 6px 14px rgba(0, 0, 0, 0.65)) drop-shadow(0 0 12px rgba(102, 157, 246, 0.72));
+  will-change: transform, opacity;
+}
+
+.cursor-ripple {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 96px;
+  height: 96px;
+  margin-left: -48px;
+  margin-top: -48px;
+  border-radius: 50%;
+  border: 2.5px solid rgba(147, 197, 253, 0.92);
+  box-shadow: 0 0 22px rgba(102, 157, 246, 0.8), inset 0 0 14px rgba(165, 138, 248, 0.45);
+  opacity: 0;
+  will-change: transform, opacity;
+}
+
+/* Layer 5: Bilibili Bottom-Safe Kinetic Subtitles (Y = 948..1026px, avoids bottom-right badge) */
+.subtitle-layer {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 44px;
+  z-index: 50;
+  display: flex;
+  justify-content: center;
+  pointer-events: none;
+}
+
+.subtitle-box {
+  position: relative;
+  max-width: 1380px;
+  padding: 14px 30px 14px 24px;
+  border-radius: 18px;
+  background: rgba(8, 10, 18, 0.84);
+  backdrop-filter: blur(22px) saturate(160%);
+  border: 1px solid rgba(255, 255, 255, 0.20);
+  box-shadow:
+    0 18px 46px rgba(0, 0, 0, 0.64),
+    0 0 26px rgba(var(--prism-accent-rgb), 0.16),
+    inset 0 1px 0 rgba(255, 255, 255, 0.30);
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  opacity: 0;
+  overflow: hidden;
+}
+
+.subtitle-accent-bar {
+  width: 5px;
+  height: 36px;
+  border-radius: 999px;
+  background: linear-gradient(180deg, #93c5fd, #a58af8, #50a37b);
+  box-shadow: 0 0 14px rgba(102, 157, 246, 0.85);
+  flex-shrink: 0;
+}
+
+.subtitle-text {
+  font-size: 32px;
+  font-weight: 800;
+  letter-spacing: 0.4px;
+  line-height: 1.25;
+  color: #ffffff;
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.72);
+  white-space: nowrap;
+}
+
+.subtitle-eq {
+  display: flex;
+  align-items: flex-end;
+  gap: 3px;
+  height: 24px;
+  margin-left: 6px;
+}
+
+.subtitle-eq span {
+  width: 3.5px;
+  border-radius: 999px;
+  background: linear-gradient(180deg, #93c5fd, #cba6f7);
+  height: 8px;
+}
+
+.subtitle-progress {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  height: 3px;
+  width: 0%;
+  background: linear-gradient(90deg, #669df6, #a58af8, #50a37b);
+}
+
+/* Layer 6: Prismatic Optical Transition Wipe & Outro Fade */
+.chromatic-wipe {
+  position: absolute;
+  inset: -200px;
+  z-index: 60;
+  pointer-events: none;
+  opacity: 0;
+  background: linear-gradient(
+    118deg,
+    transparent 36%,
+    rgba(102, 157, 246, 0.42) 45%,
+    rgba(255, 255, 255, 0.88) 50%,
+    rgba(165, 138, 248, 0.46) 55%,
+    rgba(80, 163, 123, 0.28) 60%,
+    transparent 68%
+  );
+  mix-blend-mode: screen;
+}
+
+.bottom-spectrum {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 3px;
+  z-index: 65;
+  background: linear-gradient(90deg, transparent, #669df6 20%, #a58af8 50%, #50a37b 80%, transparent);
+  opacity: 0.5;
+  transform-origin: center;
+}
+
+.outro-fade {
+  position: absolute;
+  inset: 0;
+  z-index: 80;
+  background: #04050a;
+  opacity: 0;
+  pointer-events: none;
+}

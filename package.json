@@ -1,0 +1,26 @@
+{
+  "name": "agy-wallpaper-prism-intro",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Bilibili promo video production studio, 16:9 & 4:3 covers, WebGL2 optical choreography, Mambo TTS audio pipeline, and publishing kit for agy-wallpaper-prism (Wallpaper Prism v1.1.0).",
+  "type": "module",
+  "license": "MIT",
+  "homepage": "https://github.com/azwosile/agy-wallpaper-prism-intro#readme",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/azwosile/agy-wallpaper-prism-intro.git"
+  },
+  "engines": {
+    "node": ">=22.0.0"
+  },
+  "scripts": {
+    "assets:prepare": "node scripts/prepare-assets.mjs",
+    "tts:generate": "node scripts/generate-tts.mjs",
+    "audio:mix": "node scripts/mix-audio.mjs",
+    "covers:render": "node scripts/render-covers.mjs",
+    "video:render": "node scripts/render-video.mjs",
+    "showcase:serve": "node assets/showcase/showcase-server.mjs",
+    "release:publish": "node scripts/publish-release.mjs",
+    "build:all": "node scripts/prepare-assets.mjs && node scripts/generate-tts.mjs && node scripts/mix-audio.mjs && node scripts/render-covers.mjs && node scripts/render-video.mjs"
+  }
+}

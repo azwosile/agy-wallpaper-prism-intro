@@ -6,19 +6,27 @@
  *   1. process.env.GITHUB_TOKEN or process.env.GH_TOKEN
  *   2. Standard `git credential fill` for https://github.com/<owner>/<repo>.git
  *
+ * Proxy discovery (optional, never hardcoded):
+ *   1. process.env.HTTPS_PROXY / process.env.HTTP_PROXY
+ *   2. `git config --get https.proxy` / `git config --get http.proxy`
+ *
+ * Uses `curl` with `-K -` (stdin config) so auth headers never appear in argv/logs
+ * and large MP4 release assets stream cleanly over HTTP/1.1 without fetch timeouts.
+ *
  * Usage:
  *   node scripts/publish-release.mjs
  *   node scripts/publish-release.mjs --tag v1.0.0 --repo azwosile/agy-wallpaper-prism-intro
  *   node scripts/publish-release.mjs --dry-run
  */
 
-import { execFileSync } from 'node:child_process';
+import { execFileSync, spawn } from 'node:child_process';
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const REPO_ROOT = path.resolve(__dirname, '..');
+const CURL_BIN = process.platform === 'win32' ? 'curl.exe' : 'curl';
 
 function parseArgs(argv) {
   const opts = {
@@ -72,6 +80,31 @@ function resolveGitHubToken(repoSlug) {
   return { token: '', source: 'none' };
 }
 
+function resolveProxyUrl() {
+  const envProxy = (
+    process.env.HTTPS_PROXY ||
+    process.env.https_proxy ||
+    process.env.HTTP_PROXY ||
+    process.env.http_proxy ||
+    ''
+  ).trim();
+  if (envProxy) return envProxy;
+
+  for (const key of ['https.proxy', 'http.proxy']) {
+    try {
+      const val = execFileSync('git', ['config', '--get', key], {
+        encoding: 'utf8',
+        stdio: ['ignore', 'pipe', 'ignore'],
+        timeout: 4000,
+      }).trim();
+      if (val) return val;
+    } catch {
+      // Key not set.
+    }
+  }
+  return '';
+}
+
 function buildDefaultReleaseNotes(assets) {
   const lines = [
     '## Wallpaper Prism (`agy-wallpaper-prism` v1.1.0) — Bilibili 宣传片与封面发布包',
@@ -123,23 +156,85 @@ function collectAssets() {
   return assets;
 }
 
-async function ghFetch(url, token, options = {}) {
-  const headers = {
-    Accept: 'application/vnd.github+json',
-    'X-GitHub-Api-Version': '2022-11-28',
-    'User-Agent': 'agy-wallpaper-prism-intro-publisher/1.0',
-    Authorization: `Bearer ${token}`,
-    ...(options.headers || {}),
-  };
-  const res = await fetch(url, { ...options, headers });
-  const text = await res.text();
-  let json = null;
-  try {
-    json = text ? JSON.parse(text) : null;
-  } catch {
-    json = null;
-  }
-  return { ok: res.ok, status: res.status, json, text };
+function escapeCurlConfigValue(val) {
+  return String(val).replace(/\\/g, '\\\\').replace(/"/g, '\\"');
+}
+
+function curlRequest({ url, token, proxy, method = 'GET', headers = {}, jsonBody = null, uploadFilePath = null, maxTimeSec = 120 }) {
+  return new Promise((resolve, reject) => {
+    const marker = '__HTTP_STATUS__:';
+    const args = [
+      '--silent',
+      '--show-error',
+      '--http1.1',
+      '--connect-timeout',
+      '30',
+      '--max-time',
+      String(maxTimeSec),
+      '--retry',
+      '2',
+      '--retry-delay',
+      '3',
+      '-X',
+      method,
+      '-K',
+      '-',
+      '-w',
+      `\n${marker}%{http_code}`,
+      url,
+    ];
+
+    const configLines = [
+      'header = "Accept: application/vnd.github+json"',
+      'header = "X-GitHub-Api-Version: 2022-11-28"',
+      'header = "User-Agent: agy-wallpaper-prism-intro-publisher/1.0"',
+      `header = "Authorization: Bearer ${escapeCurlConfigValue(token)}"`,
+    ];
+    if (proxy) {
+      configLines.push(`proxy = "${escapeCurlConfigValue(proxy)}"`);
+    }
+    for (const [k, v] of Object.entries(headers)) {
+      configLines.push(`header = "${escapeCurlConfigValue(k)}: ${escapeCurlConfigValue(v)}"`);
+    }
+    if (uploadFilePath) {
+      args.splice(args.length - 1, 0, '--data-binary', `@${uploadFilePath}`);
+    } else if (jsonBody !== null) {
+      configLines.push('header = "Content-Type: application/json"');
+      const payload = JSON.stringify(jsonBody);
+      args.splice(args.length - 1, 0, '--data-raw', payload);
+    }
+
+    const child = spawn(CURL_BIN, args, { stdio: ['pipe', 'pipe', 'pipe'] });
+    const outChunks = [];
+    const errChunks = [];
+    child.stdout.on('data', (chunk) => outChunks.push(chunk));
+    child.stderr.on('data', (chunk) => errChunks.push(chunk));
+    child.on('error', (err) => reject(new Error(`curl spawn failed: ${err.message}`)));
+    child.on('close', (code) => {
+      const stdout = Buffer.concat(outChunks).toString('utf8');
+      const stderr = Buffer.concat(errChunks).toString('utf8').trim();
+      if (code !== 0) {
+        reject(new Error(`curl exited ${code}: ${stderr || 'network error'}`));
+        return;
+      }
+      const idx = stdout.lastIndexOf(marker);
+      if (idx === -1) {
+        reject(new Error(`Unexpected curl response (missing status marker)`));
+        return;
+      }
+      const text = stdout.slice(0, idx).trim();
+      const status = Number.parseInt(stdout.slice(idx + marker.length).trim(), 10) || 0;
+      let json = null;
+      try {
+        json = text ? JSON.parse(text) : null;
+      } catch {
+        json = null;
+      }
+      resolve({ ok: status >= 200 && status < 300, status, json, text });
+    });
+
+    child.stdin.end(`${configLines.join('\n')}\n`);
+  });
 }
 
 async function main() {
@@ -185,23 +280,32 @@ async function main() {
     process.exit(1);
   }
 
-  console.log(`Authenticated via ${source} for ${opts.repo} (tag ${opts.tag}).`);
+  const proxy = resolveProxyUrl();
+  console.log(
+    `Authenticated via ${source} for ${opts.repo} (tag ${opts.tag}${proxy ? ', using configured proxy' : ''}).`,
+  );
 
   const apiBase = `https://api.github.com/repos/${owner}/${repo}`;
-  const getRes = await ghFetch(`${apiBase}/releases/tags/${encodeURIComponent(opts.tag)}`, token);
+  const getRes = await curlRequest({
+    url: `${apiBase}/releases/tags/${encodeURIComponent(opts.tag)}`,
+    token,
+    proxy,
+  });
 
   let release;
   if (getRes.ok && getRes.json?.id) {
     console.log(`Found existing release ${opts.tag} (id=${getRes.json.id}); updating metadata...`);
-    const patchRes = await ghFetch(`${apiBase}/releases/${getRes.json.id}`, token, {
+    const patchRes = await curlRequest({
+      url: `${apiBase}/releases/${getRes.json.id}`,
+      token,
+      proxy,
       method: 'PATCH',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
+      jsonBody: {
         name: opts.title,
         body: releaseBody,
         draft: false,
         prerelease: false,
-      }),
+      },
     });
     if (!patchRes.ok) {
       throw new Error(`Failed to update release (${patchRes.status}): ${patchRes.json?.message || patchRes.text}`);
@@ -209,17 +313,19 @@ async function main() {
     release = patchRes.json;
   } else if (getRes.status === 404) {
     console.log(`Creating release ${opts.tag} on ${opts.repo}...`);
-    const createRes = await ghFetch(`${apiBase}/releases`, token, {
+    const createRes = await curlRequest({
+      url: `${apiBase}/releases`,
+      token,
+      proxy,
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
+      jsonBody: {
         tag_name: opts.tag,
         target_commitish: opts.target,
         name: opts.title,
         body: releaseBody,
         draft: false,
         prerelease: false,
-      }),
+      },
     });
     if (!createRes.ok) {
       throw new Error(`Failed to create release (${createRes.status}): ${createRes.json?.message || createRes.text}`);
@@ -235,23 +341,30 @@ async function main() {
   for (const asset of assets) {
     const dup = existingAssets.find((item) => item.name === asset.name);
     if (dup) {
-      console.log(`Replacing existing asset ${asset.name} (id=${dup.id})...`);
-      const delRes = await ghFetch(`${apiBase}/releases/assets/${dup.id}`, token, { method: 'DELETE' });
+      console.log(`Replacing existing asset ${asset.name} (id=${dup.id}, state=${dup.state || 'unknown'})...`);
+      const delRes = await curlRequest({
+        url: `${apiBase}/releases/assets/${dup.id}`,
+        token,
+        proxy,
+        method: 'DELETE',
+      });
       if (!delRes.ok && delRes.status !== 404) {
         throw new Error(`Failed to delete old asset ${asset.name} (${delRes.status})`);
       }
     }
 
     const uploadUrl = `https://uploads.github.com/repos/${owner}/${repo}/releases/${release.id}/assets?name=${encodeURIComponent(asset.name)}`;
-    const buf = fs.readFileSync(asset.absPath);
     console.log(`Uploading ${asset.name} (${(asset.size / (1024 * 1024)).toFixed(2)} MB)...`);
-    const upRes = await ghFetch(uploadUrl, token, {
+    const upRes = await curlRequest({
+      url: uploadUrl,
+      token,
+      proxy,
       method: 'POST',
       headers: {
         'Content-Type': asset.contentType,
-        'Content-Length': String(buf.length),
       },
-      body: buf,
+      uploadFilePath: asset.absPath,
+      maxTimeSec: 900,
     });
     if (!upRes.ok) {
       throw new Error(`Failed to upload ${asset.name} (${upRes.status}): ${upRes.json?.message || upRes.text}`);
